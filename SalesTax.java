@@ -1,9 +1,9 @@
 /**
  * Created by karthikr on 24/08/15.
  */
+
 import java.util.ArrayList;
 import java.util.Scanner;
-
 
 public class SalesTax {
 
@@ -45,57 +45,64 @@ public class SalesTax {
 
                 //System.out.println(quantity);
                 //System.out.println(cost);
-                Total+=computeTax(parts, quantity, cost);
+                boolean imported = parts[1].equals("imported") ? true : false;
+                Total+=computeTax(parts, imported, quantity, cost);
 
 
 
             }
 
-         System.out.println("Sales Tax:"+salesTax);
-         System.out.println("Total:"+Total);
+            System.out.println("Sales Tax:"+salesTax);
+            System.out.println("Total:"+Total);
         }
 
 
 
-    float computeTax(String []words,int quan,float price)
+    float computeTax(String words[], boolean imported,int quan,float price)
     {
+
+        if(imported)
+        {
+
+            salesTax += price* 0.05;
+            price+= salesTax;
+
+
+
+        }
+
+
 
         for (int i = 1; i < words.length-1; ++i)
         {
             switch (words[i])
             {
-                case "book":display(quan,"book",price,0);
+
+                case "book":display(quan,"book",price,imported);
                     break;
-                case "chocolate":display(quan,"chocolate",price,0);
+                case "chocolate":display(quan,"chocolate",price,imported);
                     break;
                 case "music":
                     salesTax += quan * price * 0.1;
                     price+= salesTax;
 
-                    display(quan,"music Cd",price,0);
+                    display(quan,"music Cd",price,imported);
                     break;
-
-                case "imported":
-                    salesTax += price* 0.05;
-                    price+= salesTax;
-                    break;
-
 
                 default:
                     break;
             }
         }
         return price;
-
     }
 
 
 
 
 
-    void display(int quan,String item,float price,int imported)
+    void display(int quan,String item,float price,boolean imported)
     {
-      if(imported==0)
+      if(!imported)
        System.out.println(quan+" "+item+":"+price);
       else
        System.out.println(quan + " imported " + item + ":" + price);
